@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 3 Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .active {
+            font-weight: bold;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <!-- Include Vue 3 from CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { ref, computed, watch } = Vue;
+
+        const App = {
+            setup() {
+                // 1a. Text Interpolation
+                const message = ref('Hello, Vue 3!');
+
+                // 1b. Raw HTML
+                const rawHtml = ref('<span style="color: red;">This is raw HTML</span>');
+
+                // 1c. Attribute Bindings
+                const dynamicId = ref('myDynamicId');
+
+                // 2. Methods
+                const sayHello = () => {
+                    alert('Hello, Vue 3!');
+                }
+
+                // 3. Reactivity Fundamentals
+                const counter = ref(0);
+                const increment = () => {
+                    counter.value++;
+                }
+
+                // 4. Computed Properties
+                const doubledCounter = computed(() => counter.value * 2);
+
+                // 5a. Binding HTML class
+                const isActive = ref(true);
+
+                // 5b. Binding Inline Styles
+                const activeColor = ref('red');
+
+                // 6. List Rendering
+                const items = ref([
+                    { id: 1, text: 'Item 1' },
+                    { id: 2, text: 'Item 2' },
+                    { id: 3, text: 'Item 3' }
+                ]);
+
+                // 7. Event
+                const handleClick = () => {
+                    alert('Button was clicked for event handling demonstration!');
+                }
+
+                // 8. Form
+                const inputValue = ref('');
+                const handleInput = (event) => {
+                    console.log('Form input value:', event.target.value);
+                }
+
+                // 9. Watchers
+                watch(inputValue, (newVal, oldVal) => {
+                    console.log(`Input value changed from ${oldVal} to ${newVal}`);
+                });
+                return {
+                    message, rawHtml, dynamicId, sayHello,
+                    counter, increment, doubledCounter,
+                    isActive, activeColor, items, handleClick,
+                    inputValue, handleInput
+                };
+            },
+            template: `
+            <div>
+                <h2>Vue 3 Composition API Demo</h2>
+
+                <h3>1. Template Syntax</h3>
+                <div>
+                    <p><strong>1a. Text Interpolation:</strong> {{ message }}</p>
+                    <p><strong>1b. Raw HTML:</strong> <span v-html="rawHtml"></span></p>
+                    <p><strong>1c. Attribute Bindings:</strong> <span v-bind:id="dynamicId">I have a dynamic ID!</span></p>
+                    <p><strong>1d. JavaScript expressions inside syntax:</strong> 5 + 5 = {{ 5 + 5 }}</p>
+                </div>
+
+                <h3>2. Methods</h3>
+                <button @click="sayHello">Click me</button>
+
+                <h3>3. Reactivity Fundamentals</h3>
+                <p>Counter: {{ counter }}</p>
+                <button @click="increment">Increment</button>
+
+                <h3>4. Computed Properties</h3>
+                <p>Doubled Counter: {{ doubledCounter }}</p>
+
+                <h3>5. Class and Style Bindings</h3>
+                <p><strong>5a. Binding HTML class:</strong> <span v-bind:class="{ active: isActive }">I might be active!</span></p>
+                <p><strong>5b. Binding Inline Styles:</strong> <span v-bind:style="{ color: activeColor }">I have dynamic color!</span></p>
+
+                <h3>6. List Rendering</h3>
+                <ul>
+                    <li v-for="item in items" :key="item.id">{{ item.text }}</li>
+                </ul>
+
+                <h3>7. Event Handling</h3>
+                <button @click="handleClick">Click for Event</button>
+
+                <h3>8. Form Handling</h3>
+                <input v-model="inputValue" @input="handleInput">
+                <p>Input Value: {{ inputValue }}</p>
+            </div>
+            `
+        };
+
+        Vue.createApp(App).mount('#app');
+    </script>
+</body>
+
+</html>
